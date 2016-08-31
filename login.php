@@ -1,5 +1,7 @@
 <form method="post" action="check.php">
 
+//test
+
 <table cellpadding="0" cellspacing="0" border="0" width="25%">
 
 <tr>
