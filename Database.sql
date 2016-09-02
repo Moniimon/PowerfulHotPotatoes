@@ -6,7 +6,7 @@ CREATE TABLE `Itemtable` (
   `ItemDescription` varchar(45) DEFAULT NULL,
   `ItemPrice` decimal(8,2) DEFAULT NULL,
   `ItemQuantity` int(11) DEFAULT NULL,
-  PRIMARY KEY (`ProductID`)
+  PRIMARY KEY (`ItemID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='List of all products that can be sold'
 
 CREATE TABLE `saletable` (
