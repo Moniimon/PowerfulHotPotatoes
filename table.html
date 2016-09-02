@@ -1,0 +1,171 @@
+﻿<html>
+<head>
+<style type="text/css">
+body
+{
+	font-family: Arial;
+}
+table, td {
+    border: 1px solid black;
+}
+</style>
+</head>
+
+<body>
+
+<h1>PowerfulHotPotatoes</h1>
+
+<p>item table</p>
+
+<form action="" method="get/post">
+<table id="Itemtable">
+  <tr>
+	<td>IteamID</td>
+    <td>ItemName</td>
+    <td>ItemDescription</td>
+    <td>ItemPrice</td>
+    <td>ItemQuantity</td>
+  </tr>
+  <tr>
+    <td> <input type="text"></td>
+    <td> <input type="text"></td>
+	<td> <input type="text"></td>
+	<td> <input type="Number"></td>
+	<td> <input type="Number"></td>
+  </tr>
+   <tr>
+    <td> <input type="text"></td>
+    <td> <input type="text"></td>
+	<td> <input type="text"></td>
+	<td> <input type="Number"></td>
+	<td> <input type="Number"></td>
+  </tr>
+  <tr>
+    <td> <input type="text"></td>
+    <td> <input type="text"></td>
+	<td> <input type="text"></td>
+	<td> <input type="Number"></td>
+	<td> <input type="Number"></td>
+  </tr>
+  <tr>
+    <td> <input type="text"></td>
+    <td> <input type="text"></td>
+	<td> <input type="text"></td>
+	<td> <input type="Number"></td>
+	<td> <input type="Number"></td>
+  </tr>
+</table>
+<br>
+
+
+</br>
+</br>
+</br>
+</br>
+<p>sale table</p>
+<table id="saletable">
+  <tr>
+	<td>saleld</td>
+    <td>saleDate</td>
+    <td>SaleTime</td>
+    <td>itemID</td>
+    <td>SoldQuantity</td>
+  </tr>
+    <tr>
+    <td> <input type="text"></td>
+    <td> <input type="datetime"></td>
+	<td> <input type="time"></td>
+	<td> <input type="Number"></td>
+	<td> <input type="Number"></td>
+  </tr>
+    </tr>
+    <tr>
+    <td> <input type="text"></td>
+    <td> <input type="datetime"></td>
+	<td> <input type="time"></td>
+	<td> <input type="Number"></td>
+	<td> <input type="Number"></td>
+  </tr>
+    </tr>
+    <tr>
+    <td> <input type="text"></td>
+    <td> <input type="datetime"></td>
+	<td> <input type="time"></td>
+	<td> <input type="Number"></td>
+	<td> <input type="Number"></td>
+  </tr>
+    </tr>
+    <tr>
+    <td> <input type="text"></td>
+    <td> <input type="datetime"></td>
+	<td> <input type="time"></td>
+	<td> <input type="Number"></td>
+	<td> <input type="Number"></td>
+  </tr>
+</table>
+
+</form>
+
+<br>
+
+</br>
+<input type=submit value="submit">
+
+<script>
+//add new line to input data
+function myFunction1() {
+    var table = document.getElementById("Itemtable");
+    var row = table.insertRow(1);
+    var cell1 = row.insertCell(0);
+    var cell2 = row.insertCell(1);
+	var cell2 = row.insertCell(2);
+	var cell2 = row.insertCell(3);
+	var cell2 = row.insertCell(4);
+    cell1.innerHTML = "*";
+}
+//add new line to input data
+function myFunction2() {
+    var table = document.getElementById("saletable");
+    var row = table.insertRow(1);
+    var cell1 = row.insertCell(0);
+    var cell2 = row.insertCell(1);
+	var cell2 = row.insertCell(2);
+	var cell2 = row.insertCell(3);
+	var cell2 = row.insertCell(4);
+    cell1.innerHTML = "*";
+}
+//save to database
+function myFunction3() {
+
+}
+
+function addRow() { //insert row
+	var testTable = document.getElementById("testTable");
+	var bodies = testTable.tBodies;
+	var aBody = null;
+	if(bodies){
+	aBody = bodies[0];
+	}
+
+	if(aBody){
+	var row = document.createElement("tr");
+	for(var i = 0 ; i < testTable.tHead.rows[0].cells.length; i++){
+	var cell = document.createElement("td");
+	
+	var str = "a" + (aBody.rows.length + 1) + "b" + (i+1) + "c";
+	if(i == (testTable.tHead.rows[0].cells.length -1)) {
+	  str = "&nbsp;&nbsp;	  <a href='javascript:void(0);' onclick=\"removeRow(this);\">Delete</a>";
+	}
+	cell.innerHTML = str;
+	row.appendChild(cell);
+	}
+	aBody.insertBefore(row);
+	}
+  }
+</script>
+<script type="text/javascript">
+document.write('');
+</script>
+
+</body>
+</html>
