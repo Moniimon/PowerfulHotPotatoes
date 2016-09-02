@@ -30,8 +30,3 @@
 
 </form>
 
-User ID£º<b>php-fish</b>
-
-<br>
-
-Password£º<b>123<br>
