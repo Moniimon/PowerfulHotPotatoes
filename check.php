@@ -1,7 +1,5 @@
 <?php
-
-// Blah!
-
+//check the userid and password 
 if($_POST['name'] == "")
 
 {
@@ -15,7 +13,7 @@ if($_POST['name'] == "")
      echo "Please input the password<br><a href='login.php'>Back</a>";
 
 }else
-
+//read from the mysql to check the correction of id and password
 {
 
      $conn = mysql_connect("localhost","root","")
@@ -38,7 +36,7 @@ if($_POST['name'] == "")
 
      {
 
-         echo "login successful£¡<br>";
+         echo "login successfulÂ£Â¡<br>";
 
      }else
 
