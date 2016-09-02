@@ -16,7 +16,6 @@
 	<form action="" method="get/post">
 <table id="Itemtable">
   <tr>
-	<td>IteamID</td>
     <td>ItemName</td>
     <td>ItemDescription</td>
     <td>ItemPrice</td>
@@ -24,27 +23,23 @@
   </tr>
   <tr>
     <td> <input type="text"></td>
-    <td> <input type="text"></td>
 	<td> <input type="text"></td>
 	<td> <input type="Number"></td>
 	<td> <input type="Number"></td>
   </tr>
    <tr>
     <td> <input type="text"></td>
-    <td> <input type="text"></td>
 	<td> <input type="text"></td>
 	<td> <input type="Number"></td>
 	<td> <input type="Number"></td>
   </tr>
   <tr>
     <td> <input type="text"></td>
-    <td> <input type="text"></td>
 	<td> <input type="text"></td>
 	<td> <input type="Number"></td>
 	<td> <input type="Number"></td>
   </tr>
   <tr>
-    <td> <input type="text"></td>
     <td> <input type="text"></td>
 	<td> <input type="text"></td>
 	<td> <input type="Number"></td>
@@ -61,14 +56,13 @@
 <p>sale table</p>
 <table id="saletable">
   <tr>
-	<td>saleld</td>
     <td>saleDate</td>
     <td>SaleTime</td>
     <td>itemID</td>
     <td>SoldQuantity</td>
   </tr>
     <tr>
-    <td> <input type="text"></td>
+
     <td> <input type="datetime"></td>
 	<td> <input type="time"></td>
 	<td> <input type="Number"></td>
@@ -76,7 +70,7 @@
   </tr>
     </tr>
     <tr>
-    <td> <input type="text"></td>
+
     <td> <input type="datetime"></td>
 	<td> <input type="time"></td>
 	<td> <input type="Number"></td>
@@ -84,7 +78,7 @@
   </tr>
     </tr>
     <tr>
-    <td> <input type="text"></td>
+
     <td> <input type="datetime"></td>
 	<td> <input type="time"></td>
 	<td> <input type="Number"></td>
@@ -92,7 +86,7 @@
   </tr>
     </tr>
     <tr>
-    <td> <input type="text"></td>
+
     <td> <input type="datetime"></td>
 	<td> <input type="time"></td>
 	<td> <input type="Number"></td>
