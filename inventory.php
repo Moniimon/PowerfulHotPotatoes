@@ -11,92 +11,76 @@
 
 <h2>Inventory</h2>
 <section>
-	<h3>Blah</h3>
-	<p>
-	<form action="" method="get/post">
-<table id="Itemtable">
-  <tr>
-    <td>ItemName</td>
-    <td>ItemDescription</td>
-    <td>ItemPrice</td>
-    <td>ItemQuantity</td>
-  </tr>
-  <tr>
-    <td> <input type="text"></td>
-	<td> <input type="text"></td>
-	<td> <input type="Number"></td>
-	<td> <input type="Number"></td>
-  </tr>
-   <tr>
-    <td> <input type="text"></td>
-	<td> <input type="text"></td>
-	<td> <input type="Number"></td>
-	<td> <input type="Number"></td>
-  </tr>
-  <tr>
-    <td> <input type="text"></td>
-	<td> <input type="text"></td>
-	<td> <input type="Number"></td>
-	<td> <input type="Number"></td>
-  </tr>
-  <tr>
-    <td> <input type="text"></td>
-	<td> <input type="text"></td>
-	<td> <input type="Number"></td>
-	<td> <input type="Number"></td>
-  </tr>
-</table>
-<br>
+	<h3>Current Items</h3>
+	<p>The table below lists the items currently in the inventory and available for sale.</p> 	
+  	<?php
 
+  		$debugMsg = "";
 
-</br>
-</br>
-</br>
-</br>
-<p>sale table</p>
-<table id="saletable">
-  <tr>
-    <td>saleDate</td>
-    <td>SaleTime</td>
-    <td>itemID</td>
-    <td>SoldQuantity</td>
-  </tr>
-    <tr>
+	    require_once("settings.php");
+	    require_once("connect.php");
+	    require_once("prep_database.php");
 
-    <td> <input type="datetime"></td>
-	<td> <input type="time"></td>
-	<td> <input type="Number"></td>
-	<td> <input type="Number"></td>
-  </tr>
-    </tr>
-    <tr>
+        if ($debugMode)
+        {
+        	echo $debugMsg;
+        }
 
-    <td> <input type="datetime"></td>
-	<td> <input type="time"></td>
-	<td> <input type="Number"></td>
-	<td> <input type="Number"></td>
-  </tr>
-    </tr>
-    <tr>
+        $table = "inventory";
+        $query = "SELECT * FROM $table";
 
-    <td> <input type="datetime"></td>
-	<td> <input type="time"></td>
-	<td> <input type="Number"></td>
-	<td> <input type="Number"></td>
-  </tr>
-    </tr>
-    <tr>
+        $result = mysqli_query($conn, $query);
 
-    <td> <input type="datetime"></td>
-	<td> <input type="time"></td>
-	<td> <input type="Number"></td>
-	<td> <input type="Number"></td>
-  </tr>
-</table>
+		if (!$result)
+		{
+			echo "<p>Something went wrong with ", $query, "</p>";
+		}
+		else
+		{
+			echo 	"<table id=\"itemtable\">".
+					"<tr>".
+					"<th scope=\"col\">Item ID</th>".
+					"<th scope=\"col\">Item Name</th>".
+					"<th scope=\"col\">Item Description</th>".
+					"<th scope=\"col\">Item Price</th>".
+					"<th scope=\"col\">Item Quantity</th>".
+					"</tr>";
 
-</form>
+			while ($row = mysqli_fetch_assoc($result))
+			{
+				echo "<tr>";
+				echo "<td>", $row["item_id"], "</td>";
+				echo "<td>", $row["item_name"], "</td>";
+				echo "<td>", $row["item_description"], "</td>";
+				echo "<td>", $row["item_price"], "</td>";
+				echo "<td>", $row["item_quantity"], "</td>";
+				echo "</tr>";
+			}
+			echo "</table>";
 
-	</p>
+			mysqli_free_result($result);
+		}
+	?>		   
+	</br>
+	<h3>Add New Item</h3>
+	<p>Fill out the form bellow to add another item to the inventory.</p>
+	<form method="post" action="inventory_add_new.php" id="additem" novalidate="novalidate" >
+		<table>
+			<tr>
+			    <td>Item Name</td>
+			    <td>Item Description</td>
+			    <td>Item Price</td>
+			    <td>Item Quantity</td>
+		 	</tr>
+		  	<tr>
+			  	<td> <input type="text" id="itemname" name="itemname"></td>
+				<td> <input type="text" id="itemdescription" name="itemdescription"></td>
+				<td> <input type="text" id="itemprice" name="itemprice"></td>
+				<td> <input type="text" id="itemquantity" name="itemquantity"></td>
+			</tr>
+		</table>
+		<input type="submit" value="Add">
+	</form>	
 </section>
 
 <!-- Unique page content END -->

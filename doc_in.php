@@ -18,7 +18,7 @@
 	  		"<!-- Reference to responsive CSS file -->".
 	  		"<link href=\"styles/responsive.css\" rel=\"stylesheet\" media=\"screen and (max-width: 1024px)\"/>".
 	  		"<script src=\"scripts/main.js\"></script>".
-	  		"<title>PHP Inventory System</title>".
+	  		"<title>PHP Manager</title>".
 		"</head>".
 		"<body>";
 	require_once("header.php");

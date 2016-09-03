@@ -104,6 +104,13 @@ article a {
 	text-decoration: none;
 }
 
+#biglink {
+	font-weight: solid;
+	font-size: 1.5em;
+	color: black;
+	text-decoration: underline;;
+}
+
 /* This is a div nested within article and is used to contain article content */
 /* Padding was being factored into "margin: auto;" which caused problems with screen scaling */
 #articlecontent {
@@ -128,6 +135,19 @@ footer {
 footer a {
 	color: red;
 	text-decoration: none;
+}
+
+#itemtable {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+#itemtable td, #itemtable th {
+	border: 1px solid black;
+}
+
+#itemtable th {
+	background-color: lightgrey;
 }
 
 .error {
