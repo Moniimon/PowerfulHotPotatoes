@@ -15,6 +15,61 @@
 	<p>
 		Items can be sold from here.
 	</p>
+	<?php
+		// Generate form
+  		$debugMsg = "<p class=\"success\">DATABASE RESPONSE: </p>";
+    	$errMsg = "";
+
+	    require_once("settings.php");
+	    require_once("connect.php");
+	    require_once("prep_database.php");
+
+        if ($debugMode)
+        {
+        	echo $debugMsg;
+        }
+
+    	$table = "inventory";
+    	$query = "SELECT item_name, item_price FROM $table";
+
+    	$result = mysqli_query($conn, $query);
+    	if (!$result)
+		{
+			echo "<p>Something went wrong with ", $query, "</p>";
+		}
+		else
+		{
+			echo "	 <form method=\"post\" action=\"sell_add_new.php\" id=\"sellstock\" novalidate=\"novalidate\">".
+					"<table id=\"itemlist\">".
+					"<tr>".
+			   		"<td>Item Name</td>".
+			 		"<td>Item Quantity</td>".
+			    	"<td>Unit Cost</td>".
+			    	"<td>Total Cost</td>".
+			    	"<td></td>".
+		 			"</tr>".
+		 			"<tr id=\"item_0\" class=\"item\">".
+		 			"<td>".
+		 			"<select id=\"itemname_0\" name=\"itemname_0\" class=\"itemname\">";
+
+		  	while ($row = mysqli_fetch_assoc($result))
+			{
+				// Add options from MySql query
+				echo "<option value=\"", strtolower(str_replace(' ', '', $row["item_name"])), "\" data-price=\"", $row["item_price"] ,"\">", $row["item_name"], "</option>";
+			}
+			echo "	 </select>".
+					"</td>".
+					"<td><input type=\"text\" id=\"itemquantity_0\" value=\"1\" name=\"itemquantity_0\" class=\"itemquantity\"></td>".
+					"<td><input type=\"text\" id=\"unitcost_0\" name=\"unitcost_0\" class=\"unitcost\" readonly=\"readonly\"></td>".
+					"<td><input type=\"text\" id=\"totalcost_0\" name=\"totalcost_0\" class=\"totalcost\" readonly=\"readonly\"></td>".
+					"<td><input type=\"button\" class=\"additem\" value=\"Add\"></td>".
+					"</tr>".
+					"</table>".
+					"<input type=\"submit\" value=\"Sell\">".
+					"</form>";
+		}
+    ?>
+
 </section>
 
 <!-- Unique page content END -->

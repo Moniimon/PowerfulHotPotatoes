@@ -14,6 +14,7 @@
 	<h3>Blah</h3>
 	<p>
 		Items can be restocked from here.
+	
 	</p>
 </section>
 

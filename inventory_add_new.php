@@ -1,5 +1,5 @@
 <?php
-	// Description: Inventory page for web site
+	// Description: Inventory add page for web site
 	// Authors: Andrew Hill, Ethen (Chenglong M), Jason Dally, Monii Flores
 	// Last Edited: 01/09/2016
 
