@@ -1,7 +1,7 @@
 <?php
 	// Description: Sell add page for web site
 	// Authors: Andrew Hill, Ethen (Chenglong M), Jason Dally, Monii Flores
-	// Last Edited: 01/09/2016
+	// Last Edited: 26/09/2016
 
 	// Call the common content that precedes the unique content.
 	require_once("doc_in.php");
@@ -11,7 +11,7 @@
 
 <h2>Sell Stock</h2>
 <section>
-	<h3>Blah</h3>
+	<h3>Sale Form</h3>
 	
     <?php
         $debugMsg = "<p class=\"success\">DATABASE RESPONSE: </p>";
@@ -20,13 +20,40 @@
         require_once("settings.php");
         require_once("connect.php");
         require_once("prep_database.php");
+        require_once("utilities.php");
 
-        function sanitise_input($data)
+        function validate_sell_form_id($data)
         {
-            $data = trim($data);
-            $data = stripslashes($data);
-            $data = htmlspecialchars($data);
-            return $data;
+            if (!(is_numeric( $data ) && strpos( $data, '.' ) === false))
+            {   
+                $msg .= "<p class=\"error\">Item ID must be a whole number.</p>";
+            }
+            else if ($data > 4294967295)
+            {
+                $msg .= "<p class=\"error\">Item ID cannot exceed 4294967295.</p>";
+            }
+            else if ($data < 1)
+            {
+                $msg .= "<p class=\"error\">Item ID cannot be less than one.</p>";
+            }
+            return $msg;
+        }
+
+        function validate_sell_form_quantity($data)
+        {
+            if (!(is_numeric( $data ) && strpos( $data, '.' ) === false))
+            {   
+                $msg .= "<p class=\"error\">Item quantity must be a whole number.</p>";
+            }
+            else if ($data > 4294967295)
+            {
+                $msg .= "<p class=\"error\">Item quantity cannot exceed 4294967295.</p>";
+            }
+            else if ($data < 1)
+            {
+                $msg .= "<p class=\"error\">Item quantity cannot be less than one.</p>";
+            }
+            return $msg;
         }
 
         // CHECK THAT PAGE WAS ACCESSED VIA FORM SUBMISSION AND ASSIGN ITEMNAME
@@ -34,9 +61,9 @@
 
         $itemIndexCounter = 0;
 
-        if (isset ($_POST["itemname_".$itemIndexCounter]))
+        if (isset ($_POST["itemid_".$itemIndexCounter]))
         {
-            $itemName[$itemIndexCounter] = $_POST["itemname_".$itemIndexCounter];
+            $itemId[$itemIndexCounter] = $_POST["itemid_".$itemIndexCounter];
         }
         else
         {
@@ -56,34 +83,14 @@
         $itemIndexCountComplete = false;
         while(!$itemIndexCountComplete)
         {   
-            if (isset ($_POST["itemname_".$itemIndexCounter]))
+            if (isset ($_POST["itemid_".$itemIndexCounter]))
             {
-                $itemName[$itemIndexCounter] = $_POST["itemname_".$itemIndexCounter];
+                $itemId[$itemIndexCounter] = $_POST["itemid_".$itemIndexCounter];
                 $itemQuantity[$itemIndexCounter] = $_POST["itemquantity_".$itemIndexCounter];
 
                 // SANITISE INPUT TO PREVENT DIRTY HAX
-                $itemName[$itemIndexCounter] = sanitise_input($itemName[$itemIndexCounter]);
+                $itemId[$itemIndexCounter] = sanitise_input($itemId[$itemIndexCounter]);
                 $itemQuantity[$itemIndexCounter] = sanitise_input($itemQuantity[$itemIndexCounter]);
-
-                // VALIDATE INPUT
-                
-                if (strlen($itemName[$itemIndexCounter]) > 30)
-                {
-                    $errMsg .= "<p class=\"error\">Item name cannot exceed 30 characters.</p>";
-                }
-
-                if (!(is_numeric( $itemQuantity[$itemIndexCounter] ) && strpos( $itemQuantity[$itemIndexCounter], '.' ) === false))
-                {   
-                    $errMsg .= "<p class=\"error\">Item quantity must be a whole number.</p>";
-                }
-                else if ($itemQuantity[$itemIndexCounter] > 4294967295)
-                {
-                    $errMsg .= "<p class=\"error\">Item quantity cannot exceed 4294967295.</p>";
-                }
-                else if ($itemQuantity[$itemIndexCounter] < 0)
-                {
-                    $errMsg .= "<p class=\"error\">Item quantity cannot be a negative value.</p>";
-                }
 
                 $itemIndexCounter += 1;
             }
@@ -92,8 +99,20 @@
                 $itemIndexCountComplete = true;
             }
         }
-        
 
+        // VALIDATE DATA
+
+        for ($i = 0; $i < count($itemId); $i++)
+        {
+            $errMsg = validate_sell_form_id($itemId[$i]);
+            $errMsg = validate_sell_form_quantity($itemQuantity[$i]);
+
+            if ($errMsg != "")
+            {
+                break;
+            }
+        }
+        
         // IF THERE WERE NO VALIDATION ERRORS
         if ($errMsg == "")
         {
@@ -113,16 +132,23 @@
             {
                 $debugMsg .= "<p class=\"success\">Successfully switched to database $sql_db.</p>";
 
-                // SUBTRACT STOCK FROM INVENTORY TABLE
+                // INSERT SALE RECORD WITH AUTO INCREMENTED ID AND THE CURRENT DATE
+                
+                $table =   "sales";
+                $query =   "SET SQL_SAFE_UPDATES = 0;
+                            INSERT INTO $table (`sale_datetime`) VALUES (NOW());";
 
-                $table = "inventory";
-                $query = "SET SQL_SAFE_UPDATES = 0;";
+                // LOOP THROUGH THE NUMBER OF ITEM INDEXES SPECIFIED IN THE SALE AND SUBTRACT THE STOCK FROM THE INVENTORY TABLE
+                // ALSO, ...
 
-                for ($i = 0; $i < count($itemName); $i++)
+                for ($i = 0; $i < count($itemId); $i++)
                 {
-                    $query .=   "UPDATE $table
-                                 SET item_quantity = item_quantity - $itemQuantity[$i]
-                                 WHERE item_name = '$itemName[$i]';";
+                    $table = "inventory";
+                    $query .=  "UPDATE $table
+                                SET item_quantity = item_quantity - $itemQuantity[$i]
+                                WHERE item_id = '$itemId[$i]';";
+                    $table = "sold";
+                    $query .=  "INSERT INTO $table (item_id, sale_id, sold_quantity) VALUES ('$itemId[$i]', LAST_INSERT_ID(), '$itemQuantity[$i]');";
                 }
 
                 $result = mysqli_multi_query($conn, $query);
@@ -136,29 +162,8 @@
                 else
                 {
                     // Success
-                    $debugMsg .= "<p class=\"success\">Successfully updated $table.</p>";
-                    $errMsg .= "<p class=\"success\">Successfully updated database.</p>";
-
-                    // ADD ENTRY TO SALES TABLE 
-
-                    $table =   "sales";
-                    $query =   "INSERT INTO $table (`sale_datetime`) VALUES (NOW())";
-                    $result = mysqli_multi_query($conn, $query);
-
-                    if (!$result)
-                    {
-                        // Failure
-
-                        $debugMsg .= "<p class=\"error\">Error in query: " . $query . "</p>";
-                        $errMsg .= "<p class=\"error\">Failed to update database.</p>";
-                        
-                    }
-                    else
-                    {
-                        // Success
-                        $debugMsg .= "<p class=\"success\">Successfully updated $table.</p>";
-                        $errMsg .= "<p class=\"success\">Successfully updated database.</p>";
-                    }
+                    $debugMsg .= "<p class=\"success\">Successfully updated $table (This may not be the case...)</p>";
+                    $errMsg .= "<p class=\"success\">Successfully updated database (This may not be the case...)</p>";
 
                     if ($debugMode)
                     {
@@ -172,7 +177,8 @@
         else
         {
             echo $errMsg;
-        }      
+        }
+        
     ?>
     <a href="sell.php" id="biglink">Back</a>
 </section>

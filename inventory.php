@@ -1,7 +1,7 @@
 <?php
 	// Description: Inventory page for web site
 	// Authors: Andrew Hill, Ethen (Chenglong M), Jason Dally, Monii Flores
-	// Last Edited: 01/09/2016
+	// Last Edited: 26/09/2016
 
 	// Call the common content that precedes the unique content.
 	require_once("doc_in.php");
@@ -14,12 +14,13 @@
 	<h3>Current Items</h3>
 	<p>The table below lists the items currently in the inventory and available for sale.</p> 	
   	<?php
-
+  		$debugMsg = "<p class=\"success\">DATABASE RESPONSE: </p>";
   		$debugMsg = "";
 
 	    require_once("settings.php");
 	    require_once("connect.php");
 	    require_once("prep_database.php");
+	    require_once("utilities.php");
 
         if ($debugMode)
         {

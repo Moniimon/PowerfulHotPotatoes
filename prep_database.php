@@ -1,7 +1,7 @@
 <?php
 	// Description: Checks if the database exists and creates it if it doesn't.
 	// Authors: Andrew Hill, Ethen (Chenglong M), Jason Dally, Monii Flores
-	// Last Edited: 03/09/2016
+	// Last Edited: 26/09/2016
 
     if (!mysqli_select_db($conn, $sql_db))
     {
@@ -70,11 +70,11 @@
                         $table = "sold";
 
                         $query = "  CREATE TABLE $table (
-                                    item_id INT(6) UNSIGNED,
                                     sale_id INT(6) UNSIGNED,
-                                    PRIMARY KEY (item_id, sale_id),
-                                    FOREIGN KEY (item_Id) REFERENCES inventory(item_id),
+                                    item_id INT(6) UNSIGNED,
+                                    PRIMARY KEY (sale_id, item_id),
                                     FOREIGN KEY (sale_Id) REFERENCES sales(sale_id),
+                                    FOREIGN KEY (item_Id) REFERENCES inventory(item_id),
                                     sold_quantity INT(6) NOT NULL
                                     )";
 

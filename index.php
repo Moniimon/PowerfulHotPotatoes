@@ -1,7 +1,7 @@
 <?php
 	// Description: Home page for web site
 	// Authors: Andrew Hill, Ethen (Chenglong M), Jason Dally, Monii Flores
-	// Last Edited: 01/09/2016
+	// Last Edited: 26/09/2016
 
 	// Call the common content that precedes the unique content.
 	require_once("doc_in.php");
@@ -13,8 +13,21 @@
 <section>
 	<h3>Welcome to the PHP Manager!</h3>
 	<p>
-		Insert some drivel about the PHP Manager. Maybe show some useful stats like the top 5 selling items, warnings about low stock levels on certain items, etc.
+		This system manages inventory and generation of reports for PHP.
 	</p>
+
+	<?php
+        $debugMsg = "<p class=\"success\">DATABASE RESPONSE: </p>";
+        $errMsg = "";
+
+        require_once("settings.php");
+        require_once("connect.php");
+        require_once("prep_database.php");
+        require_once("utilities.php");
+
+        echo $debugMsg;
+        echo $errMsg;
+    ?>
 </section>
 
 <!-- Unique page content END -->

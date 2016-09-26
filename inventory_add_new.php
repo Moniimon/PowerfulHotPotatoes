@@ -1,7 +1,7 @@
 <?php
 	// Description: Inventory add page for web site
 	// Authors: Andrew Hill, Ethen (Chenglong M), Jason Dally, Monii Flores
-	// Last Edited: 01/09/2016
+	// Last Edited: 26/09/2016
 
 	// Call the common content that precedes the unique content.
 	require_once("doc_in.php");
@@ -11,7 +11,7 @@
 
 <h2>Inventory</h2>
 <section>
-	<h3>Blah</h3>
+	<h3>Current Items</h3>
 	
     <?php
         $debugMsg = "<p class=\"success\">DATABASE RESPONSE: </p>";
@@ -20,14 +20,7 @@
         require_once("settings.php");
         require_once("connect.php");
         require_once("prep_database.php");
-
-        function sanitise_input($data)
-        {
-            $data = trim($data);
-            $data = stripslashes($data);
-            $data = htmlspecialchars($data);
-            return $data;
-        }
+        require_once("utilities.php");
 
         // CHECK THAT PAGE WAS ACCESSED VIA FORM SUBMISSION AND ASSIGN ITEMNAME
 
