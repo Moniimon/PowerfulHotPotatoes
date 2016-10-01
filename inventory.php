@@ -15,7 +15,7 @@
 	<p>The table below lists the items currently in the inventory and available for sale.</p> 	
   	<?php
   		$debugMsg = "<p class=\"success\">DATABASE RESPONSE: </p>";
-  		$debugMsg = "";
+  		$errMsg = "";
 
 	    require_once("settings.php");
 	    require_once("connect.php");

@@ -25,8 +25,60 @@
         require_once("prep_database.php");
         require_once("utilities.php");
 
-        echo $debugMsg;
-        echo $errMsg;
+        if ($debugMode)
+        {
+        	echo $debugMsg;
+        }
+
+        $query = 	"SELECT sold.sale_id, sales.sale_datetime, sold.item_id, inventory.item_name, sold.sold_quantity ".
+					"FROM sold ".
+					"join inventory ON inventory.item_id = sold.item_id ".
+					"join sales ON sales.sale_id = sold.sale_id;";
+
+        $result = mysqli_query($conn, $query);
+
+        if (!$result)
+		{
+			echo "<p>Something went wrong with ", $query, "</p>";
+		}
+		else
+		{
+			echo 	"<table id=\"reporttable\">".
+					"<tr>".
+					"<th scope=\"col\">Sale ID</th>".
+					"<th scope=\"col\">Time of Sale</th>".
+					"<th scope=\"col\">Item ID</th>".
+					"<th scope=\"col\">Sold Quantity</th>".
+					"<th scope=\"col\">Item Name</th>".
+					
+					"</tr>";
+
+			$loopId = "";
+			while ($row = mysqli_fetch_assoc($result))
+			{	
+				echo "<tr>";
+				
+				if ($row["sale_id"] != $loopId)
+				{
+					echo "<td>", $row["sale_id"], " <input type=\"button\" id=\"edititem_", $row["sale_id"],"\" class=\"edititem\" value=\"Edit\">", "</td>";
+					echo "<td>", $row["sale_datetime"], "</td>";
+				}
+				else
+				{
+					echo "<td></td>";
+					echo "<td></td>";
+				}
+				echo "<td>", $row["item_id"], "</td>";
+				echo "<td>", $row["item_name"], "</td>";
+				echo "<td>", $row["sold_quantity"], "</td>";
+				echo "</tr>";
+				
+				$loopId = $row["sale_id"];
+			}
+			echo "</table>";
+
+			mysqli_free_result($result);
+		}
     ?>
 </section>
 

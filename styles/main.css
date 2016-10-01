@@ -150,6 +150,20 @@ footer a {
 	background-color: lightgrey;
 }
 
+#reporttable {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+#reporttable th {
+	border: 1px solid black;
+}
+
+#reporttable th {
+	background-color: lightgrey;
+	text-align: left;
+}
+
 .error {
 	color: #ff5400;
 }
