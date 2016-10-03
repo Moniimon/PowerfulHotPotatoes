@@ -53,11 +53,19 @@
 					
 					"</tr>";
 
+			//Create link to CSV file
+			echo "<a href=\"report.csv\" id=\"reportdownload\">Download CSV Report</a>";
+
+			//Open CSV file for writing
+			$writeCSV = fopen("report.csv", "w");
+			$writeText = "Sale ID, Sale Date, Item ID, Item Name, Sold Quantity";
+
 			$loopId = "";
 			while ($row = mysqli_fetch_assoc($result))
 			{	
 				echo "<tr>";
 				
+				// Only print the sale Id and sale date once
 				if ($row["sale_id"] != $loopId)
 				{
 					echo "<td>", $row["sale_id"], " <input type=\"button\" id=\"edititem_", $row["sale_id"],"\" class=\"edititem\" value=\"Edit\">", "</td>";
@@ -74,10 +82,25 @@
 				echo "</tr>";
 				
 				$loopId = $row["sale_id"];
+
+				// Write row values to variables for CSV write
+				$writeSaleId = $row["sale_id"];
+				$writeSaleDateTime = $row["sale_datetime"];
+				$writeItemId = $row["item_id"];
+				$writeItemName = $row["item_name"];
+				$writeSoldQuantity = $row["sold_quantity"];
+
+				// Store row variables in string and write string to CSV file
+				$writeText = "$writeSaleId, $writeSaleDateTime, $writeItemId, $writeItemName, $writeSoldQuantity\n";
+				fwrite($writeCSV, $writeText);
 			}
 			echo "</table>";
 
+			// Free query memory
 			mysqli_free_result($result);
+
+			// CSV Write complete, close file
+			fclose($writeCSV);
 		}
     ?>
 </section>

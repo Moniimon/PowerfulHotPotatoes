@@ -164,6 +164,11 @@ footer a {
 	text-align: left;
 }
 
+#reportdownload {
+	font-weight: bold;
+	font-size: 1.25em;
+}
+
 .error {
 	color: #ff5400;
 }
